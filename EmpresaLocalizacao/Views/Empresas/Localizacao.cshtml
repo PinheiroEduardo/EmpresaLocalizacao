@@ -1,0 +1,14 @@
+﻿@model EmpresaLocalizacao.Models.Empresa
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<h2>Localização das Empresas</h2>
+
+<div>
+    @Html.LabelForModel(Equals(Model.Nome + ": "))
+    @Html.DropDownList("Id", String.Empty)
+</div>
+

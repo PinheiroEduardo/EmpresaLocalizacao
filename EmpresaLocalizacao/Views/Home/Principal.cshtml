@@ -1,0 +1,15 @@
+﻿@model IEnumerable<EmpresaLocalizacao.Models.Empresa>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Localização</title>
+</head>
+<body>
+    <div>
+        @Html.DropDownListFor(e => e., new SelectList(Model, "id", "Nome"))
+    </div>
+</body>
+</html>
