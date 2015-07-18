@@ -17,9 +17,17 @@ namespace EmpresaLocalizacao.Controllers
 
         public ActionResult Localizacao()
         {
-            ViewBag.Id = new SelectList(db.Empresas.ToList(), "Id", "Nome");
+            var lista = db.Empresas.ToList();
+            ViewBag.Id = new SelectList(lista, "Id", "Nome");
+            
             return View();
         }
+        
+        [HttpPost]
+        public ActionResult Localizacao(string nome)
+        {
+    //            var item = e => e.Empresa.Nome ==
+        } 
 
 
         // GET: Empresas

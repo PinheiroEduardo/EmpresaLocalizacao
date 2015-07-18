@@ -6,6 +6,7 @@ namespace EmpresaLocalizacao.Models
 {
     public class Empresa
     {
+        
         [Key]
         public int EmpresaId { get; set; }
 
@@ -27,5 +28,6 @@ namespace EmpresaLocalizacao.Models
         [DisplayName("Número")]
         [MaxLength(6, ErrorMessage = "Máximo {0} caracteres")]
         public string Numero { get; set; }
+        
     }
 }

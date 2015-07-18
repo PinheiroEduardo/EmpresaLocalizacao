@@ -8,7 +8,14 @@
 <h2>Localização das Empresas</h2>
 
 <div>
-    @Html.LabelForModel(Equals(Model.Nome + ": "))
+    @Html.Label("txtNome", "Nome:")
     @Html.DropDownList("Id", String.Empty)
+</div>
+<div>
+    
+</div>
+
+<div>
+    <input type="submit" value="Enviar" class="btn btn-default" />
 </div>
 
