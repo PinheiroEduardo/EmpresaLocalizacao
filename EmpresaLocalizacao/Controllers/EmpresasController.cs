@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using EmpresaLocalizacao.Context;
 using EmpresaLocalizacao.Models;
 
@@ -17,7 +18,16 @@ namespace EmpresaLocalizacao.Controllers
 
         public ActionResult Localizacao()
         {
-            ViewBag.Id = new SelectList(db.Empresas.ToList(), "Id", "Nome");
+            ViewBag.EmpresaId = new SelectList(db.Empresas.ToList(), "EmpresaId", "Nome");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Localizacao(string id)
+        {
+            ViewBag.EmpresaId = new SelectList(db.Empresas.ToList(), "EmpresaId", "Nome", id);
+            var obj = (db.Empresas.Find(id));
+            ViewBag.Endereco = obj.Logradouro + "," + obj.Numero + "-" + obj.Cep;
             return View();
         }
 
