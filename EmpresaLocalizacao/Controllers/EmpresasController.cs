@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using EmpresaLocalizacao.Context;
 using EmpresaLocalizacao.Models;
 
@@ -14,7 +10,7 @@ namespace EmpresaLocalizacao.Controllers
 {
     public class EmpresasController : Controller
     {
-        private EmpresaLocalizacaoContext db = new EmpresaLocalizacaoContext();
+        private readonly EmpresaLocalizacaoContext db = new EmpresaLocalizacaoContext();
 
         public ActionResult Localizacao()
         {
@@ -22,15 +18,22 @@ namespace EmpresaLocalizacao.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Localizacao(string id)
+        public JsonResult LocalizacaoJson(string empresaId)
         {
-            ViewBag.EmpresaId = new SelectList(db.Empresas.ToList(), "EmpresaId", "Nome", id);
-            var obj = (db.Empresas.Find(id));
-            ViewBag.Endereco = obj.Logradouro + "," + obj.Numero + "-" + obj.Cep;
-            return View();
-        }
+            ViewBag.EmpresaId = new SelectList(db.Empresas.ToList(), "EmpresaId", "Nome", empresaId);
+            var id = Convert.ToInt32(empresaId);
+            var empresa = db.Empresas.Find(id);
+            if (empresa == null)
+            {
+                return Json(new {Result = "Error"}, JsonRequestBehavior.AllowGet);
+            }
+            var log = empresa.Logradouro.Replace(' ', '+');
 
+            //var endereco = log + "," + empresa.Numero + "," + empresa.Cep;
+            var endereco = empresa.Cep;
+
+            return Json(empresa, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Empresas
         public ActionResult Index()
@@ -45,7 +48,7 @@ namespace EmpresaLocalizacao.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Empresa empresa = db.Empresas.Find(id);
+            var empresa = db.Empresas.Find(id);
             if (empresa == null)
             {
                 return HttpNotFound();
@@ -83,7 +86,7 @@ namespace EmpresaLocalizacao.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Empresa empresa = db.Empresas.Find(id);
+            var empresa = db.Empresas.Find(id);
             if (empresa == null)
             {
                 return HttpNotFound();
@@ -114,7 +117,7 @@ namespace EmpresaLocalizacao.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Empresa empresa = db.Empresas.Find(id);
+            var empresa = db.Empresas.Find(id);
             if (empresa == null)
             {
                 return HttpNotFound();
@@ -127,7 +130,7 @@ namespace EmpresaLocalizacao.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Empresa empresa = db.Empresas.Find(id);
+            var empresa = db.Empresas.Find(id);
             db.Empresas.Remove(empresa);
             db.SaveChanges();
             return RedirectToAction("Index");

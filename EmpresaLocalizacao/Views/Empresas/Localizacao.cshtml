@@ -5,10 +5,9 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"/>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDKRgnBvhIlDNyjYZKzNcI9a1i915ds004&amp;sensor=false"></script>
-    @**'@<script type="text/javascript" src="../../Scripts/jquery-1.10.2.min.js"></script>*@
-    <title>Home</title>
+    <title>Localização</title>
 </head>
 <body>
 @Scripts.Render("~/bundles/jquery")
@@ -19,32 +18,31 @@
     <div class="form-horizontal">
         <div class="form-group">
             @Html.Label("txtNome", "Empresa: ",
-            new { text = "Nome:", @class = "control-label col-md-2" })
-            <div class="col-md-10">
+                new {text = "Nome:", @class = "control-label col-md-2"})
+            <div class="col-md-10" style="margin-top: 5px">
                 @Html.DropDownList("EmpresaId", String.Empty)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.Label("txtEndereco", "Endereço:",
-            new { text = "Nome:", @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Editor((string)"Endereco")
+            <div class="col-md-10" style="margin-top: 5px">
+                <label id="txtEndereco"></label>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" id="btnEndereco" name="btnEndereco" value="Mostrar no mapa" />
-            </div>
-        </div>
-
         <hr />
-        <div id="mapa" style="height: 500px; width: 1140px; margin-top: 20px" align="center"></div>
 
-        <script src="../../Scripts/mapa.js"></script>
+        <div id="mapa" style="height: 500px; width: 100%; margin-top: 20px"></div>
+
+        <script src="~/Scripts/mapa.js"></script>
+        <script src="~/Scripts/get.address.js"></script>
+
+        <script type="text/javascript">
+            function localizacao(id) {
+                $.getJSON('@Url.Action("LocalizacaoJson", "Empresas")', { empresaId: id }, localizacaoCallBack);
+            }
+        </script>
+
     </div>
-
 </body>
 </html>
 
